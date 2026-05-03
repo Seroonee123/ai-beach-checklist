@@ -1,0 +1,28 @@
+{
+  "name": "ai-beach-checklist",
+  "version": "1.0.0",
+  "description": "The Ultimate AI Beach Checklist - A smart packing checklist for beach trips",
+  "main": "index.js",
+  "scripts": {
+    "build": "vite build --outDir dist",
+    "dev": "vite",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Seroonee123/ai-beach-checklist.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Seroonee123/ai-beach-checklist/issues"
+  },
+  "homepage": "https://github.com/Seroonee123/ai-beach-checklist#readme",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  },
+  "devDependencies": {
+    "vite": "^8.0.10"
+  }
+}

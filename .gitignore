@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+# Note: dist/ is committed for Vercel deployment
+# Uncomment the line below if using Vercel build commands:
+# dist/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.production.local
+.env.development.local
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
