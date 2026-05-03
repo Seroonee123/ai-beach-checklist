@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>The Ultimate AI Beach Checklist</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -23,26 +23,32 @@
             font-family: 'Inter', sans-serif;
             color: #1a1a1a;
             -webkit-print-color-adjust: exact;
+            overflow-x: hidden;
         }
 
         /* Responsive Container: Fluid on mobile, fixed-width A4 look on desktop */
         .page-container {
             width: 100%;
-            max-width: 210mm; /* A4 Width for desktop */
-            min-height: 297mm; /* A4 Height */
+            max-width: 100%; /* Default for mobile */
+            min-height: 100vh;
             background: #fff;
             margin: 0 auto;
-            padding: 5% 7%; /* Responsive padding */
-            box-shadow: 0 20px 50px rgba(0,0,0,0.03);
+            padding: 24px 20px; /* Better mobile spacing */
+            box-shadow: none;
             position: relative;
             display: flex;
             flex-direction: column;
+            box-sizing: border-box;
         }
 
         @media (min-width: 768px) {
             .page-container {
+                max-width: 210mm; /* A4 Width for desktop */
+                min-height: 297mm;
                 margin: 40px auto;
                 border-radius: 4px;
+                padding: 60px;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.03);
             }
         }
 
@@ -69,8 +75,8 @@
         }
 
         .checkbox {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             border: 1px solid #1a1a1a;
             margin-right: 12px;
             cursor: pointer;
@@ -88,7 +94,7 @@
         .checkbox.checked::after {
             content: '✓';
             color: white;
-            font-size: 10px;
+            font-size: 12px;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -98,22 +104,23 @@
         .ai-badge {
             background: #1a1a1a;
             color: white;
-            padding: 4px 10px;
-            font-size: 0.6rem;
+            padding: 6px 12px;
+            font-size: 0.7rem;
             letter-spacing: 0.1em;
             font-weight: 600;
             text-transform: uppercase;
             border: none;
             cursor: pointer;
             transition: all 0.2s;
+            border-radius: 2px;
         }
 
         .manual-add-input {
             border: none;
             border-bottom: 1px solid #e5e5e5;
             background: transparent;
-            font-size: 0.85rem;
-            padding: 8px 0;
+            font-size: 0.9rem;
+            padding: 12px 0;
             width: 100%;
             outline: none;
             font-style: italic;
@@ -132,10 +139,9 @@
             background: transparent;
             border: 1px solid #333;
             color: white;
-            padding: 10px 15px;
-            font-size: 0.85rem;
+            padding: 12px 15px;
+            font-size: 16px; /* Prevents iOS auto-zoom */
             width: 100%;
-            max-width: 280px;
             outline: none;
             transition: border-color 0.3s;
         }
@@ -144,11 +150,11 @@
         .new-category-btn {
             border: 1px solid #1a1a1a;
             color: #1a1a1a;
-            padding: 16px;
+            padding: 18px;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             font-weight: 600;
@@ -159,16 +165,16 @@
 
     <!-- Sticky Header - Responsive Layout -->
     <div class="no-print black-header p-4 shadow-2xl sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-2 w-full sm:w-auto">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2 w-full md:w-auto">
                 <input type="text" id="destination" placeholder="WHERE TO?" class="destination-input flex-grow">
-                <button onclick="getGlobalTip()" id="globalAiBtn" class="bg-white text-black px-4 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-gray-200 transition-all flex-shrink-0">
+                <button onclick="getGlobalTip()" id="globalAiBtn" class="bg-white text-black px-5 py-3 text-[11px] font-bold uppercase tracking-widest hover:bg-gray-200 transition-all flex-shrink-0">
                     Insight
                 </button>
             </div>
-            <div class="flex gap-4 w-full sm:w-auto justify-between sm:justify-end items-center">
-                <div id="aiStatus" class="text-[10px] text-gray-400 tracking-wide uppercase"></div>
-                <button onclick="window.print()" class="border border-white/20 text-white px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-colors whitespace-nowrap">
+            <div class="flex gap-4 w-full md:w-auto justify-between md:justify-end items-center">
+                <div id="aiStatus" class="text-[10px] text-gray-400 tracking-wide uppercase font-semibold"></div>
+                <button onclick="window.print()" class="border border-white/20 text-white px-6 py-3 text-[11px] font-bold uppercase tracking-widest hover:bg-white/10 transition-colors whitespace-nowrap">
                     Print / Export
                 </button>
             </div>
@@ -179,8 +185,8 @@
         <header class="text-center mb-10 md:mb-16">
             <div class="text-[10px] tracking-[0.4em] text-gray-400 uppercase mb-4">Summer Collection</div>
             <h1 class="text-3xl md:text-5xl mb-3">Packing Checklist</h1>
-            <div id="globalTipContainer" class="hidden mt-4 max-w-lg mx-auto">
-                <p id="globalTipText" class="text-xs md:text-sm italic text-gray-500 border-l border-gray-200 pl-4 py-1 text-left md:text-center"></p>
+            <div id="globalTipContainer" class="hidden mt-6 max-w-lg mx-auto">
+                <p id="globalTipText" class="text-sm italic text-gray-500 border-l-2 border-gray-100 pl-4 py-2 text-left md:text-center"></p>
             </div>
         </header>
 
@@ -189,7 +195,7 @@
             <!-- Content dynamically generated by JS -->
         </div>
 
-        <div class="no-print mt-12 mb-16">
+        <div class="no-print mt-12 mb-16 px-2">
             <div class="new-category-btn" onclick="addNewCategory()">
                 + New Category
             </div>
@@ -198,7 +204,7 @@
         <footer class="mt-auto pt-10 flex flex-row justify-between items-end border-t border-gray-100 pb-4">
             <div class="w-2/3">
                 <p class="text-[9px] tracking-widest uppercase text-gray-400 mb-1">Destination</p>
-                <div id="footerDest" class="text-lg md:text-xl font-medium tracking-tight truncate">EXPLORING...</div>
+                <div id="footerDest" class="text-lg md:text-xl font-medium tracking-tight truncate uppercase">EXPLORING...</div>
             </div>
             <div class="text-right flex-shrink-0">
                 <p class="text-[9px] tracking-widest uppercase text-gray-400 mb-1">Edition</p>
@@ -237,30 +243,36 @@
                             contents: [{ parts: [{ text: prompt }] }]
                         })
                     });
+                    
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    
                     const data = await response.json();
-                    return data.candidates?.[0]?.content?.parts?.[0]?.text;
+                    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (!text) throw new Error("Empty AI response");
+                    return text;
                 } catch (err) {
                     retries++;
+                    if (retries >= maxRetries) throw err;
                     await new Promise(r => setTimeout(r, Math.pow(2, retries) * 1000));
                 }
             }
-            throw new Error("API Connection Failed");
         }
 
         async function getGlobalTip() {
             const dest = document.getElementById('destination').value;
             if (!dest) return;
             const status = document.getElementById('aiStatus');
-            status.innerText = "CONSULTING...";
+            status.innerText = "CONSULTING AI...";
             try {
-                const prompt = `Traveler is going to ${dest}. Provide a "Vibe Check" (one sentence about the atmosphere) and one "Must Pack" specific item. Max 25 words total. Format: [vibe] | Must Pack: [item]`;
+                const prompt = `Traveler is going to ${dest}. Provide a "Vibe Check" (one short sentence about the atmosphere) and one "Must Pack" specific item. Max 20 words total. Format: Vibe: [vibe] | Must Pack: [item]`;
                 const result = await geminiFetch(prompt);
                 document.getElementById('globalTipContainer').classList.remove('hidden');
                 document.getElementById('globalTipText').innerText = result;
                 document.getElementById('footerDest').innerText = dest.toUpperCase();
-                status.innerText = "UPDATED";
+                status.innerText = "AI UPDATED";
             } catch (e) {
-                status.innerText = "ERROR";
+                console.error(e);
+                status.innerText = "AI BUSY - RETRY";
             } finally {
                 setTimeout(() => status.innerText = "", 3000);
             }
@@ -270,12 +282,15 @@
             const container = document.querySelector(`#list-${sectionId}`);
             if (!container) return;
             const itemDiv = document.createElement('div');
-            itemDiv.className = `flex items-start mb-4 text-[14px] md:text-[13px] tracking-tight ${isAi ? 'ai-generated' : ''}`;
+            itemDiv.className = `flex items-start mb-5 text-[15px] md:text-[14px] tracking-tight ${isAi ? 'italic text-gray-600 animate-pulse' : ''}`;
             itemDiv.innerHTML = `
                 <div class="checkbox" onclick="this.classList.toggle('checked')"></div>
                 <span class="leading-tight pt-[1px]">${itemName}</span>
             `;
             container.appendChild(itemDiv);
+            if (isAi) {
+                setTimeout(() => itemDiv.classList.remove('animate-pulse'), 2000);
+            }
         }
 
         function handleManualAdd(e, sectionId) {
@@ -289,19 +304,22 @@
         }
 
         async function suggestItems(sectionId, title) {
-            const dest = document.getElementById('destination').value || "a tropical location";
+            const dest = document.getElementById('destination').value || "the beach";
             const btn = document.querySelector(`#btn-${sectionId}`);
             const status = document.getElementById('aiStatus');
             status.innerText = "CURATING...";
             try {
-                const prompt = `I am going to ${dest}. Suggest 3 premium/niche packing items for: ${title}. Return ONLY items separated by commas. Max 3 words each.`;
+                const prompt = `I am going to ${dest}. Suggest 3 unique or premium packing items specifically for a ${title} category. Return ONLY the items separated by commas. Max 3 words per item.`;
                 const result = await geminiFetch(prompt);
                 const newItems = result.split(',').map(i => i.trim());
-                newItems.forEach(item => { if (item) addItemToUI(sectionId, item, true); });
+                newItems.forEach(item => { 
+                    if (item && item.length > 1) addItemToUI(sectionId, item, true); 
+                });
                 btn.style.display = 'none';
-                status.innerText = "REFINED";
+                status.innerText = "LIST REFINED";
             } catch (e) {
-                status.innerText = "BUSY";
+                console.error(e);
+                status.innerText = "AI ERROR";
             } finally {
                 setTimeout(() => status.innerText = "", 3000);
             }
@@ -312,6 +330,7 @@
             if (!name) return;
             const id = 'custom_' + Date.now();
             renderSingleSection({ id, title: name, items: [] });
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }
 
         function renderSingleSection(s) {
@@ -320,19 +339,19 @@
             card.className = "section-card";
             card.innerHTML = `
                 <div class="flex justify-between items-start mb-6">
-                    <h3 class="text-[10px] font-bold uppercase tracking-[0.2em] pt-1">${s.title}</h3>
+                    <h3 class="text-[11px] font-bold uppercase tracking-[0.2em] pt-1">${s.title}</h3>
                     <button id="btn-${s.id}" onclick="suggestItems('${s.id}', '${s.title}')" class="no-print ai-badge">AI</button>
                 </div>
                 <div id="list-${s.id}" class="flex-grow">
                     ${s.items.map(item => `
-                        <div class="flex items-start mb-4 text-[14px] md:text-[13px] tracking-tight">
+                        <div class="flex items-start mb-5 text-[15px] md:text-[14px] tracking-tight">
                             <div class="checkbox" onclick="this.classList.toggle('checked')"></div>
                             <span class="leading-tight pt-[1px]">${item}</span>
                         </div>
                     `).join('')}
                 </div>
                 <div class="mt-2 no-print">
-                    <input type="text" placeholder="+ add note" class="manual-add-input" onkeypress="handleManualAdd(event, '${s.id}')">
+                    <input type="text" placeholder="+ add your own" class="manual-add-input" onkeypress="handleManualAdd(event, '${s.id}')">
                 </div>
             `;
             container.appendChild(card);
@@ -345,7 +364,7 @@
             updateDate();
         }
         
-        render();
+        window.onload = render;
     </script>
 </body>
 </html>
